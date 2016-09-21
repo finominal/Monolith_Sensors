@@ -2,7 +2,7 @@ void TestPolulateSensorArray()
 {
   sensorReadArray[0][0] = 1;
   sensorReadArray[2][2] = 1;
-  sensorReadArray[2][3] = 1;
+  sensorReadArray[3][2] = 1;
   sensorReadArray[5][5] = 1;
   }
 

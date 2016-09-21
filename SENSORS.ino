@@ -48,24 +48,17 @@ void CopySensorReadsToSendBuffer()
 {
   Serial.println("CopyToBuffer");
   //it was initially easy to put sensor reads into a byte array, now consolodating bits for a faster transfer
-  short resultBuffer;
   
   for(int y = 0; y < sensorsYCount; y++)
   {
-    resultBuffer = 0;
-    resultBuffer |= sensorReadArray[0][y] == 1;//set first place
-    Serial.print("0,");Serial.print(y);Serial.print(" = ");
-    Serial.println(resultBuffer,BIN);
+    sensorSendBuffer[y] = 0;
+    sensorSendBuffer[y] |= sensorReadArray[0][y] ;//set first place
     
-    for(int x = 1; x < sensorsXCount; x++)
+    for(int x = 1; x < 10; x++)
     {
-      resultBuffer << 1; //move and populate the next bit
-      resultBuffer |= sensorReadArray[x][y]; 
-        Serial.print(x);Serial.print(",");Serial.print(y);Serial.print(" = ");
-    Serial.println(resultBuffer,BIN);
- 
+     sensorSendBuffer[y] = sensorSendBuffer[y] << 1; //move and populate the next bit
+     sensorSendBuffer[y] |= sensorReadArray[x][y]; 
     }
-    sensorSendBuffer[y] = resultBuffer;
   }
 }
 
@@ -81,7 +74,7 @@ void PrintSendBuffer()
     for(int x = 0; x<sensorsXCount;x++)
     {  
        Serial.print((sensorSendBuffer[y] & mask) > 0); 
-       mask>>1; 
+       mask = mask>>1; 
     }
     Serial.println();  
   }
@@ -100,7 +93,7 @@ void PrintSendBufferRaw()
     
     for(int x = 0; x<sensorsXCount;x++)
     {  
-       Serial.print((sensorSendBuffer[y] & mask) > 0); 
+       Serial.print((sensorSendBuffer[y] & mask)); 
        mask>>1; 
     }  
 
