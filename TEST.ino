@@ -10,6 +10,6 @@ void TestPolulateSensorArray()
 {
   sensorSendBuffer[0] = 1;
   sensorSendBuffer[2] = 3;
-  sensorSendBuffer[20] = 1;
-  sensorSendBuffer[5] = 1;
+  sensorSendBuffer[20] = 8;
+  sensorSendBuffer[5] = 512;
   }
