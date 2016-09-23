@@ -25,7 +25,7 @@ void InitializeMuxes()
 
 void SetMux(byte s)
 {
-  Serial.print("Set:");Serial.println(s);
+  //Serial.print("Set:");Serial.println(s);
   byte buf = s; 
   byte mask = 1;
   

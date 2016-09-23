@@ -7,41 +7,14 @@ byte sensorSendBuffer[sensorsYCount*2]; // 0 = HIGH BYTE, 1 = LOW BYTE
 
 void ReadAllSensors()
 {
-  //itterate through all 16 channels by setting the input selector for all muxes as defined in the sensorReadOrderIndex
-  Serial.println("ReadingSensors");
-  for( byte s = 0; s < 5; s++) //the first 5 SENSORS ON EACH MUX (SKIP THE FIRST ROW OF THE FIRST TWO MUXS - THEY ARE NOT CONNECTED) 
-  {
-     //select the first sensor (via index)
-     Serial.print("s:");Serial.println(s);
-     SetMux(s);
-    
-     //for each mux, starting at SECOND ROW of muxes, skipping the first
-     for(int m = 1; m < 8; m++) //8 not 16! 
-     {
-        int y =  map(s,0,14,0,2) + (m*3); //each 5 sensors advance y by 1, Each mux advance Y by three
-        // Serial.println(y);
-         
-        sensorReadArray[s][y]   = digitalRead( muxInputPinLeft[m]  ) == 0; //reversed output
-        sensorReadArray[s+5][y] = digitalRead( muxInputPinRight[m] ) == 0; //reversed output
-     }
-  }
   
-  for( byte s = 5; s < 15; s++) //the remaining 10 sensors read as normal
+  for(int i = 0; i<15; i++)
   {
-     //select the first sensor (via index)
-     Serial.print("s:");Serial.println(s);
-     SetMux(s);
-  
-    for(int m = 0; m < 8; m++) //8 not 16! 
-    {
-        int y = map(s,0,14,0,2) + (m*3)  ; //each 5 sensors advance y by 1, Each mux advance Y by three. Minus ONE to start at the second row as ZERO Y. Dont ask. 
-        //Serial.println(y);
-        sensorReadArray[s][y]   = digitalRead( muxInputPinLeft[m]  ) == 0; //reversed output
-        sensorReadArray[s+5][y] = digitalRead( muxInputPinRight[m] ) == 0; //reversed output
-     }
+      digitalWrite(13,HIGH); //show us it's working. 
+      ReadOne( i);
+      digitalWrite(13,LOW); //show us it's working.
   }
-
-  Serial.println("SensorReadFinished");
+  //CopySensorReadsToSendBuffer();
 }
 
 void ReadOne(int muxInput)
@@ -52,10 +25,10 @@ void ReadOne(int muxInput)
   
   SetMux(muxInput);
 
-  
   for(; m < 8; m++) //8 not 16! 
   {
       y = ((muxInput/5) + m*3) -1;  //each 5 sensors advance y by 1, Each mux advance Y by three. Minus ONE to start at the second row as ZERO Y. Dont ask. 
+     //TODO Read directly into buffer
       sensorReadArray[muxInput%5][y]   = digitalRead( muxInputPinLeft[m]  ) == 0; //reversed output
       sensorReadArray[(muxInput%5)+5][y] = digitalRead( muxInputPinRight[m] ) == 0; //reversed output
   }
@@ -135,7 +108,7 @@ void PrintSensors()
     Serial.print(y); Serial.print(":");
     for(byte s = 0; s<sensorsXCount;s++)
     {
-      Serial.print(sensorReadArray[s][y] == 1);  
+      Serial.print(sensorReadArray[s][y] );  
     }
     Serial.println();  
   }

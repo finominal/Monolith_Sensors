@@ -13,7 +13,7 @@ void CheckForSerialRequest()
     }
     else
     {
-        muxToSet = startChar-49;
+        //muxToSet = startChar-49;
     }
   }
 }

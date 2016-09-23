@@ -24,25 +24,25 @@
 void InitializePins()
 {
 
-  pinMode(mux0,INPUT_PULLUP);
-  pinMode(mux1,INPUT_PULLUP);
-  pinMode(mux2,INPUT_PULLUP);
-  pinMode(mux3,INPUT_PULLUP);
+  pinMode(mux0,INPUT);
+  pinMode(mux1,INPUT);
+  pinMode(mux2,INPUT);
+  pinMode(mux3,INPUT);
   
-  pinMode(mux4,INPUT_PULLUP);
-  pinMode(mux5,INPUT_PULLUP);
-  pinMode(mux6,INPUT_PULLUP);
-  pinMode(mux7,INPUT_PULLUP);
+  pinMode(mux4,INPUT);
+  pinMode(mux5,INPUT);
+  pinMode(mux6,INPUT);
+  pinMode(mux7,INPUT);
   
-  pinMode(mux8,INPUT_PULLUP);
-  pinMode(mux9,INPUT_PULLUP);
-  pinMode(mux10,INPUT_PULLUP);
-  pinMode(mux11,INPUT_PULLUP);
+  pinMode(mux8,INPUT);
+  pinMode(mux9,INPUT);
+  pinMode(mux10,INPUT);
+  pinMode(mux11,INPUT);
   
-  pinMode(mux12,INPUT_PULLUP);
-  pinMode(mux13,INPUT_PULLUP);
-  pinMode(mux14,INPUT_PULLUP);
-  pinMode(mux15,INPUT_PULLUP);
+  pinMode(mux12,INPUT);
+  pinMode(mux13,INPUT);
+  pinMode(mux14,INPUT);
+  pinMode(mux15,INPUT);
       
 
   pinMode(13,OUTPUT);
