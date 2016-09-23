@@ -5,7 +5,6 @@ int const sensorsYCount = 23;
 byte sensorReadArray[sensorsXCount][sensorsYCount]; //?
 byte sensorSendBuffer[sensorsYCount*2]; // 0 = HIGH BYTE, 1 = LOW BYTE
 
- 
 void ReadAllSensors()
 {
   //itterate through all 16 channels by setting the input selector for all muxes as defined in the sensorReadOrderIndex
@@ -16,10 +15,9 @@ void ReadAllSensors()
      Serial.print("s:");Serial.println(s);
      SetMux(s);
     
-    
-    //for each mux, starting at SECOND ROW of muxes, skipping the first
-    for(int m = 1; m < 8; m++) //8 not 16! 
-    {
+     //for each mux, starting at SECOND ROW of muxes, skipping the first
+     for(int m = 1; m < 8; m++) //8 not 16! 
+     {
         int y =  map(s,0,14,0,2) + (m*3); //each 5 sensors advance y by 1, Each mux advance Y by three
         // Serial.println(y);
          
@@ -48,22 +46,20 @@ void ReadAllSensors()
 
 void ReadOne(int muxInput)
 {
-  int yStart = 0;
-  if(muxInput <5)yStart++;
+  int m,y = 0;
 
+  m = muxInput < 5? 1 : 0;
+  
   SetMux(muxInput);
+
   
-    for(int m = 0; m < 8; m++) //8 not 16! 
-    {
-        int y = map(muxInput,0,14,0,2) + (m*3)  ; //each 5 sensors advance y by 1, Each mux advance Y by three. Minus ONE to start at the second row as ZERO Y. Dont ask. 
-        //Serial.println(y);
-        sensorReadArray[muxInput][y]   = digitalRead( muxInputPinLeft[m]  ) == 0; //reversed output
-        sensorReadArray[muxInput+5][y] = digitalRead( muxInputPinRight[m] ) == 0; //reversed output
-     }
-  
+  for(; m < 8; m++) //8 not 16! 
+  {
+      y = ((muxInput/5) + m*3) -1;  //each 5 sensors advance y by 1, Each mux advance Y by three. Minus ONE to start at the second row as ZERO Y. Dont ask. 
+      sensorReadArray[muxInput%5][y]   = digitalRead( muxInputPinLeft[m]  ) == 0; //reversed output
+      sensorReadArray[(muxInput%5)+5][y] = digitalRead( muxInputPinRight[m] ) == 0; //reversed output
   }
-
-
+}
 
 void CopySensorReadsToSendBuffer()
 {
@@ -91,7 +87,6 @@ void CopySensorReadsToSendBuffer()
     if(debug) Serial.println("CopyToBuffer Done");
 }
 
-
 void PrintSendBuffer()
 {
   Serial.println("SendBuffer"); 
@@ -109,7 +104,6 @@ void PrintSendBuffer()
   }
   Serial.println();  
 }
-
 
 void PrintSendBufferRaw()
 {
@@ -132,7 +126,6 @@ void PrintSendBufferRaw()
   
   Serial.println();  
 }
-
 
 void PrintSensors()
 {

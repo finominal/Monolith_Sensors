@@ -52,7 +52,7 @@ void InitializePins()
 void flash()
 {
   digitalWrite(13,HIGH); //show us it's working. 
-  delayMicroseconds(100);
+  delayMicroseconds(200);
   digitalWrite(13,LOW); //show us it's working.
   }
 

@@ -12,6 +12,8 @@ long counter;
 int const numberOfMuxs  = 16;
 int const sensorsPerMux = 15;
 
+int muxToSet = 0;
+
 boolean debug = true;
 
 void setup() 
@@ -26,7 +28,7 @@ void setup()
   Serial.println();
   Serial.println();
 
-  InitializePins();
+  //InitializePins();
 
   //It will Freeze Here if not connected to pwm board
   InitializeMuxes();
@@ -37,35 +39,20 @@ void setup()
   
 void loop() {
   
-  Serial.println("Loop");
-   //ReadAllSensors(); 
 
-   for(int i = 0; i< 15;i++)
-   {
-    Serial.print("Read Cycle = ");Serial.println(i);
-    ReadOne(i);
-    PrintSensors();
-   }
   
+  for(int i = 0; i<15; i++)
+  {
+      digitalWrite(13,HIGH); //show us it's working. 
+      ReadOne( i);
+      digitalWrite(13,LOW); //show us it's working.
+    }
 
    //CheckForSerialRequest();
-   //SetMuxBySerial();
- 
-  delay(1000);
 }
 
 
 
 
-void SetMuxBySerial()
-{
-  if(Serial.available())
-  {
-      byte in = Serial.read();
-      SetMux(in);
-      Serial.println(in);
-   }
-    //Serial.println(digitalRead(9));
-}
 
 

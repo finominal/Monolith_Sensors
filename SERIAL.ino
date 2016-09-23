@@ -13,12 +13,7 @@ void CheckForSerialRequest()
     }
     else
     {
-      if(debug) 
-      {
-        Serial.print("I am sorry I dont know what "); 
-        Serial.print(startChar); 
-        Serial.println(" is."); 
-      }
+        muxToSet = startChar-49;
     }
   }
 }

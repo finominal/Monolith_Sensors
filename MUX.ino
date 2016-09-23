@@ -1,5 +1,4 @@
 
-
 int muxChannelReadOrderIndex[] = {
                               10, 11, 12, 13, 14, 
                                5,  6,  7,  8,  9, 
@@ -15,51 +14,39 @@ void InitializeMuxes()
   muxes.begin();
   muxes.setPWMFreq(1000);  // 1600 is max I think. about that. 
   delay(1);
-
-  #ifdef TWBR    
-  // save I2C bitrate
-  
-  if(debug) Serial.println("FastI2C Enables");
-  uint8_t twbrbackup = TWBR;
-  // must be changed after calling Wire.begin() (inside pwm.begin())
-  TWBR = 12; // upgrade to 400KHz!
-#endif
-
    
   if(debug) Serial.println("Muxes Ready");
 
   allMuxOff();
 }
 
+
+
+
 void SetMux(byte s)
 {
-  InitializeMuxes();
+  Serial.print("Set:");Serial.println(s);
   byte buf = s; 
-  
-  //Serial.print("Set:");Serial.println(buf, BIN);
   byte mask = 1;
   
   for(int i = 0; i<4;i++)//for each 4-lsb bits in the byte
   {
     if(buf & mask > 0)
     { 
-      Serial.print(i); Serial.print("-On ");
-      muxes.setPWM(i*4,   0, 4095);Serial.print(".");
-      muxes.setPWM(i*4+1, 0, 4095);Serial.print(".");
-      muxes.setPWM(i*4+2, 0, 4095);Serial.print(".");
-      muxes.setPWM(i*4+3, 0, 4095);Serial.print(".");
+      muxes.setPWM(i*4,   0, 4095);
+      muxes.setPWM(i*4+1, 0, 4095);
+      muxes.setPWM(i*4+2, 0, 4095);
+      muxes.setPWM(i*4+3, 0, 4095);
     }
     else
     {
-      Serial.print(i); Serial.print("-Off ");
-       muxes.setPWM(i*4,   4095, 0);Serial.print(".");
-       muxes.setPWM(i*4+1, 4095, 0);Serial.print("."); 
-       muxes.setPWM(i*4+2, 4095, 0);Serial.print(".");
-       muxes.setPWM(i*4+3, 4095, 0);Serial.print(".");
+       muxes.setPWM(i*4,   4095, 0);
+       muxes.setPWM(i*4+1, 4095, 0);
+       muxes.setPWM(i*4+2, 4095, 0);
+       muxes.setPWM(i*4+3, 4095, 0);
     }
     buf = buf>>1;
   }
-  Serial.println("SetOK");
 }
 
 
@@ -83,3 +70,154 @@ void allMuxOff()
 }
 
 
+
+
+
+
+/* 
+ *  Set mux long handed
+ *  
+void SetMux(byte s)
+{
+  Serial.print("Setting "); Serial.println(s); 
+   switch(s)
+   {
+    case 0:
+      setPWM(0, 0);
+      setPWM(1, 0);
+      setPWM(2, 0);
+      setPWM(3, 0);
+      Serial.print("Set "); Serial.println(s);
+    break;
+    case 1:
+      setPWM(0, 1);
+      setPWM(1, 0);
+      setPWM(2, 0);
+      setPWM(3, 0);
+      Serial.print("Set "); Serial.println(s);
+    break;
+    case 2:
+      setPWM(0, 0);
+      setPWM(1, 1);
+      setPWM(2, 0);
+      setPWM(3, 0);
+      Serial.print("Set "); Serial.println(s);
+    break;
+    case 3:
+      setPWM(0, 1);
+      setPWM(1, 1);
+      setPWM(2, 0);
+      setPWM(3, 0);
+      Serial.print("Set "); Serial.println(s);
+    break;
+    case 4:
+      setPWM(0, 0);
+      setPWM(1, 0);
+      setPWM(2, 1);
+      setPWM(3, 0);
+      Serial.print("Set "); Serial.println(s);
+    break;
+    case 5:
+      setPWM(0, 1);
+      setPWM(1, 0);
+      setPWM(2, 1);
+      setPWM(3, 0);
+      Serial.print("Set "); Serial.println(s);
+    break;
+    case 6:
+      setPWM(0, 0);
+      setPWM(1, 1);
+      setPWM(2, 1);
+      setPWM(3, 0);
+      Serial.print("Set "); Serial.println(s);
+    break;
+    case 7:
+      setPWM(0, 1);
+      setPWM(1, 1);
+      setPWM(2, 1);
+      setPWM(3, 0);
+      Serial.print("Set "); Serial.println(s);
+    break;
+    case 8:
+      setPWM(0, 0);
+      setPWM(1, 0);
+      setPWM(2, 0);
+      setPWM(3, 1);
+      Serial.print("Set "); Serial.println(s);
+    break;
+    case 9:
+      setPWM(0, 1);
+      setPWM(1, 1);
+      setPWM(2, 1);
+      setPWM(3, 1);
+      Serial.print("Set "); Serial.println(s);
+    break;
+    case 10:
+      setPWM(0, 0);
+      setPWM(1, 1);
+      setPWM(2, 0);
+      setPWM(3, 1);
+      Serial.print("Set "); Serial.println(s);
+    break;
+    case 11:
+      setPWM(0, 1);
+      setPWM(1, 1);
+      setPWM(2, 0);
+      setPWM(3, 1);
+      Serial.print("Set "); Serial.println(s);
+    break;
+    case 12:
+      setPWM(0, 0);
+      setPWM(1, 0);
+      setPWM(2, 1);
+      setPWM(3, 1);
+      Serial.print("Set "); Serial.println(s);
+    break;
+    case 13:
+      setPWM(0, 1);
+      setPWM(1, 0);
+      setPWM(2, 1);
+      setPWM(3, 1);
+      Serial.print("Set "); Serial.println(s);
+    break;
+    case 14:
+      setPWM(0, 0);
+      setPWM(1, 1);
+      setPWM(2, 1);
+      setPWM(3, 1);
+      Serial.print("Set "); Serial.println(s);
+    break;
+    case 15:
+      setPWM(0, 1);
+      setPWM(1, 1);
+      setPWM(2, 1);
+      setPWM(3, 1);
+      Serial.print("Set "); Serial.println(s);
+    break;
+   }
+}
+
+void setPWM(int channel, int OnOff)
+{
+  if(OnOff == 1)
+  {
+    muxes.setPWM(channel*4, 0, 4095);
+    muxes.setPWM(channel*4+1, 0, 4095);
+    muxes.setPWM(channel*4+2, 0, 4095);
+    muxes.setPWM(channel*4+3, 0, 4095);
+  }
+  else
+  {
+    
+    Serial.println("-0");
+    muxes.setPWM(channel*4, 4095, 0 );
+      Serial.println("-1");
+    muxes.setPWM(channel*4+1, 4095, 0 );
+     Serial.println("-2");
+    muxes.setPWM(channel*4+2, 4095, 0 );
+     Serial.println("-3");
+    muxes.setPWM(channel*4+3, 4095, 0 );
+     Serial.println(millis());
+  }      
+}
+*/
