@@ -6,10 +6,23 @@ void TestPolulateSensorArray()
   sensorReadArray[5][5] = 1;
   }
 
-  void TestPolulateBuffer()
+  void TestPolulateSendBuffer()
 {
   sensorSendBuffer[0] = 1;
   sensorSendBuffer[2] = 3;
   sensorSendBuffer[20] = 8;
-  sensorSendBuffer[5] = 512;
+  sensorSendBuffer[5] = 512; //later bit
   }
+
+ void SensorBufferTest()
+ {
+   if(debug) Serial.println("SensorBufferTest");
+  
+   TestPolulateSensorArray();
+   
+   //PrintSensors();
+   
+   CopySensorReadsToSendBuffer();
+
+  // PrintSendBuffer();
+ }

@@ -1,3 +1,5 @@
+
+
 #define mux0  2
 #define mux1  3
 #define mux2  4
@@ -9,7 +11,7 @@
 #define mux7  12
 
 #define mux8  14
-#define mux9 15
+#define mux9  15
 #define mux10 16
 #define mux11 17
 
@@ -17,9 +19,6 @@
 #define mux13 21
 #define mux14 22
 #define mux15 23
-
-
-
 
 
 void InitializePins()
@@ -47,8 +46,14 @@ void InitializePins()
       
 
   pinMode(13,OUTPUT);
-  digitalWrite(13,HIGH); //show us it's working. 
+  digitalWrite(13,LOW); //show us it's working. 
 }
 
+void flash()
+{
+  digitalWrite(13,HIGH); //show us it's working. 
+  delayMicroseconds(100);
+  digitalWrite(13,LOW); //show us it's working.
+  }
 
 
