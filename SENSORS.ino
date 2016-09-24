@@ -23,7 +23,8 @@ void ReadOne(int muxInput)
 
   m = muxInput < 5? 1 : 0;
   
-  SetMux(muxInput);
+  SetMux(muxChannelReadOrderIndex[muxInput]);
+  delayMicroseconds(300);
 
   for(; m < 8; m++) //8 not 16! 
   {
@@ -33,6 +34,8 @@ void ReadOne(int muxInput)
       sensorReadArray[(muxInput%5)+5][y] = digitalRead( muxInputPinRight[m] ) == 0; //reversed output
   }
 }
+
+
 
 void CopySensorReadsToSendBuffer()
 {
@@ -102,12 +105,14 @@ void PrintSendBufferRaw()
 
 void PrintSensors()
 {
-  
   for(int y = 0; y<sensorsYCount; y++)
   { 
-    Serial.print(y); Serial.print(":");
+    Serial.print(y); 
+    if(y < 10) Serial.print(" ");
+    Serial.print(":");
     for(byte s = 0; s<sensorsXCount;s++)
     {
+      if(s == 5 ) Serial.print(" ");
       Serial.print(sensorReadArray[s][y] );  
     }
     Serial.println();  

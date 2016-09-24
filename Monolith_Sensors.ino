@@ -10,11 +10,11 @@ Adafruit_PWMServoDriver muxes = Adafruit_PWMServoDriver(0x40);
 
 long counter;
 int const numberOfMuxs  = 16;
-int const sensorsPerMux = 15;
+int const sensorsPerMux = 15;       
 
 int muxToSet = 0;
 
-boolean debug = false;
+boolean debug = true;
 
 void setup() 
 {
@@ -28,9 +28,8 @@ void setup()
   Serial.println();
   Serial.println();
 
-  //InitializePins();
-
   //It will Freeze Here if not connected to pwm board
+  
   InitializeMuxes();
   InitializePins();
   //SensorBufferTest();
@@ -39,7 +38,7 @@ void setup()
   
 void loop() {
   
-  Serial.println(millis());
+  if(debug) Serial.println(millis());
     
   for(int i = 0; i<15; i++)
   {
@@ -50,7 +49,7 @@ void loop() {
   }
 
 
- PrintSensors();
+ if(debug) PrintSensors();
 }
 
 

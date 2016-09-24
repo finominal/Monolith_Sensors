@@ -10,7 +10,7 @@ int muxInputPinRight[] = { mux8, mux9, mux10, mux11, mux12, mux13, mux14, mux15 
 
 void InitializeMuxes()
 {
- 
+  if(debug) Serial.println("initializing Muxes");
   muxes.begin();
   muxes.setPWMFreq(1000);  // 1600 is max I think. about that. 
   delay(1);
@@ -47,6 +47,7 @@ void SetMux(byte s)
     }
     buf = buf>>1;
   }
+
 }
 
 
