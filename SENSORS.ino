@@ -7,7 +7,6 @@ byte sensorSendBuffer[sensorsYCount*2]; // 0 = HIGH BYTE, 1 = LOW BYTE
 
 void ReadAllSensors()
 {
-  
   for(int i = 0; i<15; i++)
   {
       digitalWrite(13,HIGH); //show us it's working. 
@@ -40,25 +39,26 @@ void ReadOne(int muxInput)
 void CopySensorReadsToSendBuffer()
 {
    if(debug) Serial.println("CopyToBuffer");
-  //it was initially easy to put sensor reads into a byte array, now consolodating bits for a faster transfer
-  
-  for(int y = 0; y < sensorsYCount*2; y+=2)
+ //it's easier to store data in a byte array so it can be sent and recieved easily.
+ int bufferY;
+  for(int y = 0; y < sensorsYCount; y++)
   {
     flash();
-    sensorSendBuffer[y] = sensorSendBuffer[y+1] = 0;
+    bufferY = y*2;
+    sensorSendBuffer[bufferY] = sensorSendBuffer[bufferY+1] = 0;
+    
+   //First out, high byte
+    sensorSendBuffer[bufferY] |= sensorReadArray[0][y]; 
+    sensorSendBuffer[bufferY] = sensorSendBuffer[bufferY] << 1; //move and populate the next bit
+    sensorSendBuffer[bufferY] |= sensorReadArray[1][y]; 
 
     //Second out, Low byte
-    sensorSendBuffer[y+1] |= sensorReadArray[0][y] ;//set first place
-    for(int x = 1; x < 8; x++)
+    sensorSendBuffer[bufferY+1] |= sensorReadArray[2][y] ;//set first place
+    for(int x = 3; x < sensorsXCount; x++)
     {
-     sensorSendBuffer[y+1] = sensorSendBuffer[y] << 1; //move and populate the next bit
-     sensorSendBuffer[y+1] |= sensorReadArray[x][y]; 
+     sensorSendBuffer[bufferY+1] = sensorSendBuffer[bufferY+1] << 1; //move and populate the next bit
+     sensorSendBuffer[bufferY+1] |= sensorReadArray[x][y]; 
     }
-
-    //First out, high byte
-    sensorSendBuffer[y] |= sensorReadArray[9][y]; 
-    sensorSendBuffer[y] = sensorSendBuffer[y] << 1; //move and populate the next bit
-    sensorSendBuffer[y] |= sensorReadArray[8][y]; 
   }
     if(debug) Serial.println("CopyToBuffer Done");
 }
@@ -66,15 +66,21 @@ void CopySensorReadsToSendBuffer()
 void PrintSendBuffer()
 {
   Serial.println("SendBuffer"); 
+  int bufferY;
+  char mask;
   for(int y = 0; y<sensorsYCount;y++)
   {  
     Serial.print(y); Serial.print(":"); 
-    short mask = 1024;
-    
-    for(int x = 0; x<sensorsXCount;x++)
+    mask = 128;
+    bufferY = y*2;
+
+    Serial.print((sensorSendBuffer[bufferY] & 2) > 0); 
+    Serial.print((sensorSendBuffer[bufferY] & 1) > 0); 
+       
+    for(int x = 0; x<8;x++) //minus the two above, 10 sensors. 
     {  
-       Serial.print((sensorSendBuffer[y] & mask) > 0); 
-       mask = mask>>1; 
+      Serial.print((sensorSendBuffer[bufferY+1] & mask) > 0); 
+     mask = mask >> 1;
     }
     Serial.println();  
   }
@@ -85,8 +91,9 @@ void PrintSendBufferRaw()
 {
   Serial.println("raw"); 
   
-  for(int y = 0; y<sensorsYCount;y++)
+  for(int y = 0; y<sensorsYCount*2;y++)
   {  
+    /*
     short mask = 1024;
     Serial.print(y); Serial.print(":"); 
     
@@ -95,6 +102,7 @@ void PrintSendBufferRaw()
        Serial.print((sensorSendBuffer[y] & mask)); 
        mask>>1; 
     }  
+    */
     Serial.print(" - "); 
     Serial.print(y); Serial.print(":");  Serial.print(sensorSendBuffer[y], BIN);
     Serial.println();

@@ -20,9 +20,18 @@ void TestPolulateSensorArray()
   
    TestPolulateSensorArray();
    
-   //PrintSensors();
+   PrintSensors();
    
    CopySensorReadsToSendBuffer();
 
-  // PrintSendBuffer();
+   PrintSendBuffer();
+   PrintSendBufferRaw();
  }
+
+ void dontDoAnythingElse()
+ {
+
+  while(true) {
+    CopySensorReadsToSendBuffer();
+    delay(1000);} 
+  }

@@ -1,4 +1,4 @@
-#include <Wire.h>
+//#include <Wire.h>
 #include <Adafruit_PWMServoDriver.h>
 
 /*
@@ -30,10 +30,10 @@ void setup()
 
   //It will Freeze Here if not connected to pwm board
   
-  InitializeMuxes();
+  //InitializeMuxes();
   InitializePins();
-  //SensorBufferTest();
-
+  SensorBufferTest();
+ 
 }
   
 void loop() {
