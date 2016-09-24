@@ -9,15 +9,16 @@ void ReadAllSensors()
 {
   for(int i = 0; i<15; i++)
   {
-      digitalWrite(13,HIGH); //show us it's working. 
+      //digitalWrite(13,HIGH); //show us it's working. 
       ReadOne( i);
-      digitalWrite(13,LOW); //show us it's working.
+      //digitalWrite(13,LOW); //show us it's working.
   }
   //CopySensorReadsToSendBuffer();
 }
 
 void ReadOne(int muxInput)
 {
+  
   int m,y = 0;
 
   m = muxInput < 5? 1 : 0;
@@ -43,7 +44,7 @@ void CopySensorReadsToSendBuffer()
  int bufferY;
   for(int y = 0; y < sensorsYCount; y++)
   {
-    flash();
+    //flash();
     bufferY = y*2;
     sensorSendBuffer[bufferY] = sensorSendBuffer[bufferY+1] = 0;
     
@@ -65,7 +66,7 @@ void CopySensorReadsToSendBuffer()
 
 void PrintSendBuffer()
 {
-  Serial.println("SendBuffer"); 
+  Serial.println(millis()); 
   int bufferY;
   char mask;
   for(int y = 0; y<sensorsYCount;y++)
@@ -113,6 +114,8 @@ void PrintSendBufferRaw()
 
 void PrintSensors()
 {
+  Serial.println(millis());
+  
   for(int y = 0; y<sensorsYCount; y++)
   { 
     Serial.print(y); 

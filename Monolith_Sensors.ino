@@ -33,22 +33,22 @@ void setup()
   InitializeMuxes();
   InitializePins();
 
-  //dev
-   //TestPolulateSensorArray();
-   //CopySensorReadsToSendBuffer();
  
 }
   
 void loop() {
   
-  for(int i = 0; i>15; i++)
-  {
-    ReadOne(i);
-    CheckForSerialRequest();
-  }
+//  for(int i = 0; i>15; i++)
+//  {
+//    ReadOne(i);
+//  }
+
+  ReadAllSensors();
+  CopySensorReadsToSendBuffer();
+  CheckForSerialRequest();
  
   //PrintSendBuffer();
-
+  //PrintSensors();
 }
 
 
