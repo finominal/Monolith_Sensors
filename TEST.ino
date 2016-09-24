@@ -1,9 +1,9 @@
 void TestPolulateSensorArray()
 {
-  sensorReadArray[0][0] = 1;
-  sensorReadArray[2][2] = 1;
-  sensorReadArray[3][2] = 1;
-  sensorReadArray[5][5] = 1;
+  sensorReadArray[5][15] = 1;
+  sensorReadArray[4][13] = 1;
+  //sensorReadArray[3][2] = 1;
+ // sensorReadArray[5][5] = 1;
   }
 
   void TestPolulateSendBuffer()
@@ -11,7 +11,7 @@ void TestPolulateSensorArray()
   sensorSendBuffer[0] = 1;
   sensorSendBuffer[2] = 3;
   sensorSendBuffer[20] = 8;
-  sensorSendBuffer[5] = 512; //later bit
+  sensorSendBuffer[5] = 128; //later bit
   }
 
  void SensorBufferTest()
@@ -20,12 +20,12 @@ void TestPolulateSensorArray()
   
    TestPolulateSensorArray();
    
-   PrintSensors();
+  // PrintSensors();
    
    CopySensorReadsToSendBuffer();
 
-   PrintSendBuffer();
-   PrintSendBufferRaw();
+   //PrintSendBuffer();
+  // PrintSendBufferRaw();
  }
 
  void dontDoAnythingElse()

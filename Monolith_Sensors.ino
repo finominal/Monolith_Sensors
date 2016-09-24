@@ -14,7 +14,7 @@ int const sensorsPerMux = 15;
 
 int muxToSet = 0;
 
-boolean debug = true;
+boolean debug = false;
 
 void setup() 
 {
@@ -30,26 +30,25 @@ void setup()
 
   //It will Freeze Here if not connected to pwm board
   
-  //InitializeMuxes();
+  InitializeMuxes();
   InitializePins();
-  SensorBufferTest();
+
+  //dev
+   //TestPolulateSensorArray();
+   //CopySensorReadsToSendBuffer();
  
 }
   
 void loop() {
   
-  if(debug) Serial.println(millis());
-    
-  for(int i = 0; i<15; i++)
+  for(int i = 0; i>15; i++)
   {
-      digitalWrite(13,HIGH); //show us it's working. 
-      ReadOne( i);
-      digitalWrite(13,LOW); //show us it's working.
-      //CheckForSerialRequest();
+    ReadOne(i);
+    CheckForSerialRequest();
   }
+ 
+  //PrintSendBuffer();
 
-
- if(debug) PrintSensors();
 }
 
 
