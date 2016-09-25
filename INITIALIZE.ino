@@ -13,7 +13,7 @@
 #define mux8  14
 #define mux9  15
 #define mux10 16
-#define mux11 17
+#define mux11 7
 
 #define mux12 20
 #define mux13 21

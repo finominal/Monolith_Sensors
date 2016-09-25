@@ -32,7 +32,7 @@ void setup()
   
   InitializeMuxes();
   InitializePins();
-
+  //TestPolulateSensorArray();
  
 }
   
@@ -47,8 +47,8 @@ void loop() {
   CopySensorReadsToSendBuffer();
   CheckForSerialRequest();
  
-  //PrintSendBuffer();
-  //PrintSensors();
+  if(debug) PrintSendBuffer();
+  if (debug) PrintSensors();
 }
 
 

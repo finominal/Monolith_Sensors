@@ -1,13 +1,17 @@
+char dataIn;
 
 void CheckForSerialRequest()
 {
   if(Serial.available())
   {
-    flash();
-    char startChar = Serial.read();
+      while(Serial.available())
+      {
+        dataIn = Serial.read();//clean the input serial cache
+      }
 
-    if (startChar == '!') 
+    if (dataIn == '!') 
     {
+      flash();
       if(debug)Serial.println("Sending Data");
       SendSensorData();
     }
